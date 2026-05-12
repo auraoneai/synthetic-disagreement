@@ -6,7 +6,7 @@ Stress-test your IAA pipeline before recruiting reviewers with deterministic syn
 
 ```bash
 pip install synthetic-disagreement
-python -c "from synthetic_disagreement import generate; from synthetic_disagreement.noise_models import UniformNoise; print(generate([{'item_id':'1','label':1}], ['r1','r2'], UniformNoise(seed=1), [0,1]))"
+python -c "from synthetic_disagreement import UniformNoise, generate; print(generate([{'item_id':'1','label':1}], ['r1','r2'], UniformNoise(seed=1), [0,1]))"
 ```
 
 ## What This Is Not

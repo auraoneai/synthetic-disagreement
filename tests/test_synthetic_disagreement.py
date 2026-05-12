@@ -1,5 +1,4 @@
-from synthetic_disagreement import generate
-from synthetic_disagreement.noise_models import UniformNoise, BiasedNoise, OrdinalSlipNoise, AdversarialNoise, DriftNoise
+from synthetic_disagreement import AdversarialNoise, BiasedNoise, DriftNoise, OrdinalSlipNoise, UniformNoise, generate
 
 def test_models_deterministic():
     items=[{"item_id":"1","label":1},{"item_id":"2","label":0}]
