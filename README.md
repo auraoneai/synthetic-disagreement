@@ -1,26 +1,76 @@
 # synthetic-disagreement
 
-Stress-test your IAA pipeline before recruiting reviewers with deterministic synthetic annotator disagreement.
+Stress-test an inter-annotator agreement pipeline with deterministic synthetic reviewer labels.
 
-## Quickstart
+`synthetic-disagreement` is for annotation leads, evaluation methodologists, and test engineers who want to exercise calibration code before collecting real labels. It provides uniform, biased, ordinal-slip, adversarial, and drift noise models, then feeds generated rating matrices into `iaa-kit` to show how agreement changes as noise increases.
+
+## Inspectable Output
+
+- Python API: `generate` returns a deterministic mapping keyed by `(item_id, rater_id)`.
+- Installed CLI `generate`: a JSON report whose `labels` rows contain item id, rater id, generated label, noise model, seed, and `synthetic: true`.
+- Installed CLI `stress-curve`: a JSON report whose `curve` points contain noise level and Fleiss kappa agreement, with an optional deterministic SVG.
+
+The same inputs, seed, model, and levels produce the same output.
+
+## Runtime Boundary
+
+Generation and stress curves run entirely in the local Python process with NumPy and `iaa-kit`. There are no network requests, model calls, reviewer services, telemetry hooks, or uploaded task data.
+
+## Install
+
+Python library and CLI:
 
 ```bash
-pip install synthetic-disagreement
-python -c "from synthetic_disagreement import UniformNoise, generate; print(generate([{'item_id':'1','label':1}], ['r1','r2'], UniformNoise(seed=1), [0,1]))"
+python -m pip install synthetic-disagreement==0.1.2
 ```
 
-## IAA Stress Curve
+## Python API Quickstart
 
-```python
-from synthetic_disagreement import UniformNoise, degradation_curve, write_agreement_curve_svg
+```bash
+python - <<'PY'
+from synthetic_disagreement import UniformNoise, generate
 
-items = [{"item_id": str(i), "label": i % 2} for i in range(12)]
-rows = degradation_curve(items, ["r1", "r2", "r3"], lambda level: UniformNoise(rate=level, seed=7), [0, 0.25, 0.5])
-write_agreement_curve_svg(rows, "agreement-vs-noise.svg")
+labels = generate(
+    [{"item_id": "1", "label": 1}],
+    ["r1", "r2"],
+    UniformNoise(rate=0.2, seed=7),
+    [0, 1],
+)
+print(labels)
+PY
 ```
 
-The stress harness feeds generated labels into `iaa-kit` and emits a deterministic SVG agreement-vs-noise curve.
+## CLI Quickstart
 
-## What This Is Not
+```bash
+synthetic-disagreement generate \
+  --items examples/synthetic_items.json \
+  --raters r1,r2,r3 \
+  --noise-model uniform \
+  --rate 0.2 \
+  --seed 7 \
+  --out synthetic-labels.json
 
-Not a replacement for real reviewer studies. Examples are synthetic.
+synthetic-disagreement stress-curve \
+  --items examples/synthetic_items.json \
+  --raters r1,r2,r3 \
+  --noise-model uniform \
+  --levels 0,0.25,0.5 \
+  --seed 7 \
+  --out agreement-curve.json \
+  --svg-out agreement-curve.svg
+```
+
+See [`docs/methodology.md`](docs/methodology.md) for noise-model and data-policy details.
+
+## Release Status
+
+Registry and artifact status verified July 13, 2026: version `0.1.2` is published on PyPI and tagged `v0.1.2` in the public repository. The wheel includes the Python API plus the JSON and SVG CLI. The project is alpha software. No reviewer-volume, quality, or adoption claim is made.
+
+## Limits
+
+Synthetic noise is a test fixture, not a model of every real reviewer population. The generated curves do not replace pilot annotation, reviewer training, adjudication, or empirical agreement studies.
+
+## Next Action
+
+Use the Python API or installed CLI to generate seeded labels or a stress curve, confirm the pipeline responds as expected, then compare the result with a real pilot annotation study.

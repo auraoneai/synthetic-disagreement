@@ -4,25 +4,41 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "synthetic-disagreement"
-version = "0.1.1"
-description = "Controlled synthetic annotator disagreement generator."
+version = "0.1.2"
+description = "Generate deterministic synthetic reviewer disagreement and inter-annotator agreement stress curves."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 authors = [{ name = "AuraOne" }]
-classifiers = ["Development Status :: 3 - Alpha", "Programming Language :: Python :: 3.10", "Programming Language :: Python :: 3.11", "Programming Language :: Python :: 3.12"]
+keywords = ["inter-annotator-agreement", "synthetic-data", "annotation-quality", "reviewer-disagreement", "fleiss-kappa", "evals"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Testing",
+]
 dependencies = ["iaa-kit>=0.1.1", "numpy>=1.23"]
 
 [project.urls]
-Homepage = "https://auraone.ai/open"
-Source = "https://github.com/auraoneai/synthetic-disagreement"
+Homepage = "https://github.com/auraoneai/synthetic-disagreement"
+Documentation = "https://github.com/auraoneai/synthetic-disagreement#readme"
+Repository = "https://github.com/auraoneai/synthetic-disagreement.git"
+Issues = "https://github.com/auraoneai/synthetic-disagreement/issues"
+Changelog = "https://github.com/auraoneai/synthetic-disagreement/blob/main/CHANGELOG.md"
 
-
+[project.scripts]
+synthetic-disagreement = "synthetic_disagreement.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
-pythonpath = ["src"]
+pythonpath = ["src", "../iaa-kit/src"]
 testpaths = ["tests"]
