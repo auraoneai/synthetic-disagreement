@@ -1,5 +1,22 @@
 # synthetic-disagreement
 
+**LLM evaluation reviewer-agreement stress testing** with deterministic synthetic reviewer labels.
+
+> Part of [AuraOne EvalKit](https://auraone.ai/open/evalkit). Use seeded synthetic labels to test a reviewer-agreement pipeline before measuring real reviewer agreement with `evalkit agreement`.
+
+## Quick Start
+
+```bash
+python -m pip install synthetic-disagreement==0.1.2
+synthetic-disagreement generate \
+  --items examples/synthetic_items.json \
+  --raters r1,r2,r3 \
+  --noise-model uniform \
+  --rate 0.2 \
+  --seed 7 \
+  --out synthetic-labels.json
+```
+
 Stress-test an inter-annotator agreement pipeline with deterministic synthetic reviewer labels.
 
 `synthetic-disagreement` is for annotation leads, evaluation methodologists, and test engineers who want to exercise calibration code before collecting real labels. It provides uniform, biased, ordinal-slip, adversarial, and drift noise models, then feeds generated rating matrices into `iaa-kit` to show how agreement changes as noise increases.
