@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "synthetic-disagreement"
 version = "0.1.2"
-description = "Generate deterministic synthetic reviewer disagreement and inter-annotator agreement stress curves."
+description = "LLM evaluation agreement stress tests: generate deterministic synthetic reviewer disagreement and inter-annotator agreement curves."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 authors = [{ name = "AuraOne" }]
-keywords = ["inter-annotator-agreement", "synthetic-data", "annotation-quality", "reviewer-disagreement", "fleiss-kappa", "evals"]
+keywords = ["llm-evaluation", "inter-annotator-agreement", "synthetic-data", "annotation-quality", "reviewer-disagreement", "fleiss-kappa", "evals"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Environment :: Console",
@@ -26,7 +26,8 @@ classifiers = [
 dependencies = ["iaa-kit>=0.1.1", "numpy>=1.23"]
 
 [project.urls]
-Homepage = "https://github.com/auraoneai/synthetic-disagreement"
+Homepage = "https://auraone.ai/open/evalkit"
+Source = "https://github.com/auraoneai/synthetic-disagreement"
 Documentation = "https://github.com/auraoneai/synthetic-disagreement#readme"
 Repository = "https://github.com/auraoneai/synthetic-disagreement.git"
 Issues = "https://github.com/auraoneai/synthetic-disagreement/issues"
